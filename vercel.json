@@ -7,7 +7,8 @@
     }
   ],
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/Frontend/amazon_store/index.html" }
+    { "src": "/[^.]+", "dest": "/Frontend/amazon_store/index.html" },
+    { "src": "/", "dest": "/Frontend/amazon_store/index.html" },
+    { "src": "/(.*)", "dest": "/Frontend/amazon_store/$1" }
   ]
 }
