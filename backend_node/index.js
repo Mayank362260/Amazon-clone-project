@@ -42,17 +42,37 @@ app.get('/api/cart', async (req, res) => {
 });
 
 app.post('/api/cart', async (req, res) => {
-    const { productId, quantity } = req.body;
-    const [cart] = await Cart.findOrCreate({ where: { guestId: 'default_guest' } });
-    
-    let item = await CartItem.findOne({ where: { CartId: cart.id, ProductId: productId } });
-    if (item) {
-        item.quantity = quantity !== undefined ? quantity : (item.quantity + 1);
-        await item.save();
-    } else {
-        await CartItem.create({ CartId: cart.id, ProductId: productId, quantity: 1 });
-    }
-    res.status(200).send('Cart Updated');
+    try {
+        const { productId, quantity } = req.body;
+        const [cart] = await Cart.findOrCreate({ where: { guestId: 'default_guest' } });
+        
+        let item = await CartItem.findOne({ where: { CartId: cart.id, ProductId: productId } });
+        if (item) {
+            item.quantity = quantity !== undefined ? quantity : (item.quantity + 1);
+            await item.save();
+        } else {
+            await CartItem.create({ CartId: cart.id, ProductId: productId, quantity: quantity || 1 });
+        }
+
+        const fullCart = await Cart.findOne({
+            where: { id: cart.id },
+            include: [{ model: CartItem, as: 'items', include: [Product] }]
+        });
+        res.json(fullCart);
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.delete('/api/cart/:productId', async (req, res) => {
+    try {
+        const [cart] = await Cart.findOrCreate({ where: { guestId: 'default_guest' } });
+        await CartItem.destroy({ where: { CartId: cart.id, ProductId: req.params.productId } });
+        
+        const fullCart = await Cart.findOne({
+            where: { id: cart.id },
+            include: [{ model: CartItem, as: 'items', include: [Product] }]
+        });
+        res.json(fullCart);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 // Order Placement
