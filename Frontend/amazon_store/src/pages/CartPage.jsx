@@ -49,7 +49,7 @@ const CartPage = () => {
     };
 
     const subtotal = (cart?.items || []).reduce((acc, item) => {
-        const price = item.productId?.price || 0;
+        const price = item.Product?.price || 0;
         return acc + (price * item.quantity);
     }, 0);
 
@@ -119,7 +119,7 @@ const CartPage = () => {
                                 </div>
                                 <div style={{ textAlign: 'right' }}>
                                     <strong style={{ fontSize: '18px' }}>
-                                        ₹{(item.productId?.price || 0).toLocaleString()}
+                                        ₹{(item.Product?.price || 0).toLocaleString()}
                                     </strong>
                                 </div>
                             </div>
