@@ -105,18 +105,18 @@ const Home = () => {
                   }}
                 >
                   <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    <div style={{ height: '55px', overflow: 'hidden' }}>
-                        <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '10px', color: '#0f1111', lineHeight: '1.2' }}>
+                    <div style={{ minHeight: '65px', overflow: 'hidden' }}>
+                        <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '5px', color: '#0f1111', lineHeight: '1.3' }}>
                         {product.name}
                         </h3>
                     </div>
                     
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '15px 0' }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px 0' }}>
                       <img 
                         src={product.image?.[0] || 'https://via.placeholder.com/400'} 
                         alt={product.name} 
                         referrerPolicy="no-referrer"
-                        style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'contain' }}
+                        style={{ maxWidth: '90%', maxHeight: '170px', objectFit: 'contain' }}
                       />
                     </div>
                   </Link>
